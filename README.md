@@ -1,4 +1,4 @@
-##🔧 Atualizador de Banco de Dados e Arquivos via FTP
+## Atualizador de Banco de Dados e Arquivos via FTP
 
 Este script automatiza a atualização de bancos de dados PostgreSQL e o download de arquivos via FTP (com extração automática de arquivos `.rar`) em sistemas Windows.
 
