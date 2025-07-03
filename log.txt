@@ -1,0 +1,16 @@
+[2025-07-01 15:43:41.998537] === Início da execução ===
+[2025-07-01 15:43:42.028576] Sistema Operacional detectado: Windows
+[2025-07-01 15:43:42.029576] Conectando ao banco de CONEXAO...
+[2025-07-01 15:43:42.060360] Banco principal localizado: 127.0.0.1:C:/piracaiasoft/dados/RAMON.fdb
+[2025-07-01 15:43:42.075102] Executando script: alteracoes/ddl.sql
+[2025-07-01 15:43:42.838653] Script executado com sucesso: alteracoes/ddl.sql
+[2025-07-01 15:43:42.839655] Executando script: alteracoes/procedures.sql
+[2025-07-01 15:43:43.023320] Script executado com sucesso: alteracoes/procedures.sql
+[2025-07-01 15:43:43.023320] Executando script: alteracoes/triggers.sql
+[2025-07-01 15:43:43.028574] Erro ao executar alteracoes/triggers.sql: ('Error while preparing SQL statement:\n- SQLCODE: -104\n- Dynamic SQL Error\n- SQL error code = -104\n- Unexpected end of command - line 1, column 1', -104, 335544569)
+[2025-07-01 15:43:43.051769] Iniciando download FTP...
+[2025-07-01 15:44:42.831770] Arquivo baixado com sucesso: /vndTeste/VND5.48-beta5.rar
+[2025-07-01 15:44:42.833771] Download FTP concluído.
+[2025-07-01 15:44:42.833771] Iniciando extração da pasta 'Piaracaiasoft'...
+[2025-07-01 15:44:42.866393] Extração concluída.
+[2025-07-01 15:44:42.866393] === Processo finalizado com sucesso ===
