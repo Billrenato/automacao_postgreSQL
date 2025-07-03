@@ -1,4 +1,4 @@
-#🔧 Atualizador de Banco de Dados e Arquivos via FTP
+##🔧 Atualizador de Banco de Dados e Arquivos via FTP
 
 Este script automatiza a atualização de bancos de dados PostgreSQL e o download de arquivos via FTP (com extração automática de arquivos `.rar`) em sistemas Windows.
 
@@ -22,38 +22,37 @@ pip install psycopg2 rarfile
 🧬 Estrutura do Projeto
 
 
-atualizador/
-├── alteracoes/
-│   ├── ddl.sql
-│   ├── procedures.sql
-│   └── triggers.sql
-├── log.txt
-├── script.py
-⚙️ Configuração
+    atualizador/
+    ├── alteracoes/
+    │   ├── ddl.sql
+    │   ├── procedures.sql
+    │   └── triggers.sql
+    ├── log.txt
+    ├── script.py
+    ⚙️ Configuração
+    
 Edite os dicionários PG_CONEXAO_CONFIG e PG_PRINCIPAL_CONFIG no início do arquivo para configurar os dados de acesso ao PostgreSQL:
 
 
-PG_CONEXAO_CONFIG = {
-    'host': 'localhost',
-    'port': 5432,
-    'dbname': 'conexao_db',
-    'user': 'seu_usuario',
-    'password': 'sua_senha'
-}
-Configure também os dados FTP:
+    PG_CONEXAO_CONFIG = {
+        'host': 'localhost',
+        'port': 5432,
+        'dbname': 'conexao_db',
+        'user': 'seu_usuario',
+        'password': 'sua_senha'
+    }
+    Configure também os dados FTP:
+    
+    
+    FTP_HOST = 'exemplo.dyndns.org'
+    FTP_USER = 'user'
+    FTP_PASS = '0000'
+    FTP_DOWNLOAD_FOLDER = r'C:\'
 
 
-FTP_HOST = 'exemplo.dyndns.org'
-FTP_USER = 'user'
-FTP_PASS = '0000'
-FTP_DOWNLOAD_FOLDER = r'C:\'
 
 
-caminho: diretório do banco
-
-bd: nome do banco principal
-
-🚀 Execução
+## 🚀 Execução
 No terminal:
 
 
@@ -68,16 +67,16 @@ Aplicar os scripts SQL no banco principal.
 
 Se for Windows, baixar e extrair o arquivo .rar via FTP.
 
-📝 Logs
+## 📝 Logs
 Todos os eventos são registrados em tempo real no arquivo log.txt, incluindo erros de conexão, execução de scripts e status do FTP.
 
-❗ Observações
+##❗ Observações
 O caminho do arquivo .rar no FTP está fixo como /vndTeste/VND5.48-beta5.rar.
 
 Apenas a pasta piaracaiasoft dentro do .rar será extraída.
 
 Este projeto foi criado com foco em ambientes Windows; o recurso de download FTP é ignorado em outros sistemas operacionais.
 
-🧑‍💻 Autor
+## 🧑‍💻 Autor
 Renato Junior Mathias
 LinkedIn | renatojrmathias94@gmail.com
