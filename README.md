@@ -1,82 +1,115 @@
-## Atualizador de Banco de Dados e Arquivos via FTP
+# Sistema de Relatórios Inteligentes com IA (Django + Text-to-SQL)
 
-Este script automatiza a atualização de bancos de dados PostgreSQL e o download de arquivos via FTP (com extração automática de arquivos `.rar`) em sistemas Windows.
+Este projeto é uma aplicação web robusta, construída com o framework **Django** e **Python**, que revoluciona a maneira como os usuários interagem com dados. Em vez de escrever consultas SQL complexas, o usuário simplesmente faz uma pergunta em **linguagem natural**, e o sistema utiliza Inteligência Artificial (IA) para gerar, executar e apresentar o relatório desejado.
 
-## 📌 Funcionalidades
+## Visão Geral do Projeto
 
-- Conecta-se a um banco de dados central para obter o nome do banco principal.
-- Executa scripts SQL (`DDL`, `procedures`, `triggers`) automaticamente no banco principal.
-- Em sistemas Windows, realiza download de um arquivo `.rar` via FTP e extrai apenas a pasta desejada.
-- Gera logs detalhados da execução em `log.txt`.
+O objetivo principal é democratizar o acesso aos dados corporativos, permitindo que usuários de diferentes níveis técnicos gerem relatórios customizados. A aplicação opera em um ciclo simples:
 
-## 🛠️ Pré-requisitos
+1.  **Entrada:** O usuário insere uma pergunta (ex: "Quais são os 10 produtos mais vendidos no último trimestre?").
+2.  **Tradução (IA):** Um modelo de linguagem (GPT-4 ou similar) interpreta a pergunta e a converte em uma *query* SQL válida.
+3.  **Execução:** A *query* SQL é executada no banco de dados.
+4.  **Saída:** Os resultados são processados com **Pandas** e exibidos em formatos visuais e tabulares (HTML e gráficos).
 
-- Python 3.8+
-- PostgreSQL
-- Dependências Python:
+## Funcionalidades Detalhadas
 
+### Entrada e Processamento
+* **Interface Amigável:** Formulário web (Django Templates + Bootstrap) para entrada de texto em linguagem natural.
+* **Geração de SQL via IA (Text-to-SQL):** Utilização da OpenAI API (GPT-4 / GPT-3.5) ou modelos *Text-to-SQL* baseados em **Hugging Face Transformers** para tradução automática da pergunta.
+* **Validação de Segurança:** Mecanismo de validação de *queries* geradas para prevenir injeções de SQL e a execução de comandos destrutivos (`DROP`, `DELETE`, `UPDATE`).
 
-pip install psycopg2 rarfile
-⚠️ O rarfile requer que o unrar esteja instalado no sistema. Em Windows, baixe de: https://www.rarlab.com/rar_add.htm
+### Resultados e Saída
+* **Processamento de Dados:** Uso da biblioteca **Pandas** para manipulação, limpeza e preparação dos dados retornados pela consulta SQL.
+* **Visualização de Dados:** Exibição dos resultados em uma **tabela HTML** dinâmica e em **gráficos** interativos (utilizando Matplotlib ou Plotly).
+* **Exportação de Relatórios:** Funcionalidade para exportar os resultados em formatos comuns como PDF e Excel.
 
-🧬 Estrutura do Projeto
+### Infraestrutura
+* **Autenticação:** Sistema completo de login e gerenciamento de usuários fornecido pelo Django.
+* **Configuração Modular:** Suporte a diferentes bases de dados (SQLite para desenvolvimento e PostgreSQL para produção).
 
+## Tecnologias Utilizadas
 
-    atualizador/
-    ├── alteracoes/
-    │   ├── ddl.sql
-    │   ├── procedures.sql
-    │   └── triggers.sql
-    ├── log.txt
-    ├── script.py
-    ⚙️ Configuração
-    
-Edite os dicionários PG_CONEXAO_CONFIG e PG_PRINCIPAL_CONFIG no início do arquivo para configurar os dados de acesso ao PostgreSQL:
+| Categoria | Tecnologia | Uso Específico |
+| :--- | :--- | :--- |
+| **Backend Principal** | Python 3.12 | Linguagem principal de desenvolvimento. |
+| **Framework Web** | Django 4.x | Estrutura para a aplicação web, URLs, Views e Templates. |
+| **Processamento de Dados** | Pandas | Análise, manipulação e estruturação dos dados de consulta. |
+| **Visualização** | Matplotlib / Plotly | Geração dos gráficos e visualizações estatísticas. |
+| **IA/NLP** | OpenAI API (GPT-4) ou Hugging Face | Tradução de linguagem natural para SQL (*Text-to-SQL*). |
+| **Banco de Dados** | SQLite / PostgreSQL | Armazenamento dos dados que serão consultados. |
+| **Frontend/UI** | Django Templates, Bootstrap, HTML, JavaScript | Interface do usuário e responsividade do layout. |
 
+## Estrutura do Projeto (Exemplo)
 
-    PG_CONEXAO_CONFIG = {
-        'host': 'localhost',
-        'port': 5432,
-        'dbname': 'conexao_db',
-        'user': 'seu_usuario',
-        'password': 'sua_senha'
-    }
-    Configure também os dados FTP:
-    
-    
-    FTP_HOST = 'exemplo.dyndns.org'
-    FTP_USER = 'user'
-    FTP_PASS = '0000'
-    FTP_DOWNLOAD_FOLDER = r'C:\'
+O projeto segue a estrutura padrão de um aplicativo Django, com um módulo central de inteligência:
 
+relatorios-ia-django/
+├── manage.py
+├── core/                        # Configurações e URLs principais
+├── reports/                     # App Django para lógica de relatórios
+│   ├── models.py
+│   ├── views.py                 # Lógica de processamento da pergunta
+│   └── templates/
+│       └── reports/
+│           └── form_pergunta.html
+├── nl_to_sql_engine/            # Módulo de inteligência Text-to-SQL
+│   ├── query_generator.py       # (Onde o GPT-4 gera o SQL)
+│   └── validation.py            # Verificação de segurança da query
+├── db_connector.py              # Gerenciamento da conexão com o banco de dados
+└── requirements.txt
 
+## Pré-requisitos
 
+Para rodar o projeto, você precisará ter instalado:
 
-## 🚀 Execução
-No terminal:
+1.  **Python 3.12+**
+2.  **PostgreSQL** (ou outro SGBD configurado)
+3.  Uma **chave de API da OpenAI** (para a funcionalidade Text-to-SQL baseada em GPT).
 
+## Instalação e Configuração
 
-python script.py
-O script irá:
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/seuusuario/relatorios-ia-django.git](https://github.com/seuusuario/relatorios-ia-django.git)
+    cd relatorios-ia-django
+    ```
 
-Detectar o sistema operacional.
+2.  **Crie e ative um ambiente virtual:**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # Linux/Mac
+    # venv\Scripts\activate   # Windows
+    ```
 
-Conectar-se ao banco de "conexão".
+3.  **Instale as dependências:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Aplicar os scripts SQL no banco principal.
+4.  **Configure as variáveis de ambiente:**
+    Crie um arquivo `.env` na raiz do projeto e adicione sua chave de API:
+    ```
+    # Variáveis de ambiente
+    OPENAI_API_KEY="SUA_CHAVE_AQUI"
+    DATABASE_URL="postgresql://user:password@host:port/dbname" 
+    ```
 
-Se for Windows, baixar e extrair o arquivo .rar via FTP.
+5.  **Execute as migrações do banco de dados:**
+    ```bash
+    python manage.py migrate
+    ```
 
-## 📝 Logs
-Todos os eventos são registrados em tempo real no arquivo log.txt, incluindo erros de conexão, execução de scripts e status do FTP.
+6.  **Inicie o servidor de desenvolvimento:**
+    ```bash
+    python manage.py runserver
+    ```
 
-##❗ Observações
-O caminho do arquivo .rar no FTP está fixo como /vndTeste/VND5.48-beta5.rar.
+O sistema estará acessível em `http://127.0.0.1:8000/`.
 
-Apenas a pasta piaracaiasoft dentro do .rar será extraída.
+## Considerações de Segurança
 
-Este projeto foi criado com foco em ambientes Windows; o recurso de download FTP é ignorado em outros sistemas operacionais.
+O componente mais crítico deste projeto é a geração de código SQL por IA. Para garantir a segurança:
 
-## 🧑‍💻 Autor
-Renato Junior Mathias
-LinkedIn | renatojrmathias94@gmail.com
+* **Validação de Query:** O sistema deve sempre passar a *query* SQL gerada por um filtro de segurança (`validar_query`), que impede comandos destrutivos como `DROP TABLE`, `DELETE FROM`, ou `UPDATE` que modifiquem o esquema ou os dados.
+* **Permissões de Banco de Dados:** O usuário do banco de dados configurado no Django (`db_connector.py`) deve ter permissões mínimas (`SELECT` apenas) para a execução de consultas, limitando o potencial dano de uma *query* mal-intencionada ou gerada incorretamente.
+* **Chave de API:** A `OPENAI_API_KEY` deve ser armazenada como uma variável de ambiente e nunca ser exposta publicamente.
